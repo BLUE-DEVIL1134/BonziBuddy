@@ -21,6 +21,7 @@ and talk, among other functions.
 | Take Voice Command | No (For Now)  |
 | Animation | No (For Now)  |
 | Open Apps | Yes  |
+| Send Mails | Yes  |
 | Open Directories | Yes  |
 | Capture The World | Yes (This Has Already Been Done) |
 
