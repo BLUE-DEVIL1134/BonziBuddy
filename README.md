@@ -1,7 +1,7 @@
 # BonziBuddy
 ### Welcome To BonziBuddy - Official [Python 3.8.5]
 ##### For Quires You Can Email Me AT - `akashpattnaik.github@gmail.com` ![BonziBuddy](https://github.com/BLUE-DEVIL1134/BonziBuddy/blob/master/BonziBuddy/bonzi.png)
-
+## [Latest Update](https://github.com/BLUE-DEVIL1134/BonziBuddy/blob/master/Updates/06-09-2020.update)
 
 ## Information
 ```jquery-css
